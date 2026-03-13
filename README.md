@@ -103,7 +103,7 @@ Historical NEPSE stock data collected per company with the following features:
 - Correlation analysis between fundamental features and quality score
 - Identifying high-performing stocks across years
 
-![Correlation Heatmap](results/plots/correlation_heatmap.png)
+![Correlation Heatmap](results/plots/lstm_correlationgraph.png)
 *Correlation heatmap between all engineered features and the Quality Score.*
 
 ### 4. Feature Engineering
