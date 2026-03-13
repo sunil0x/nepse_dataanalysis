@@ -1,4 +1,4 @@
-# 🚀 NEPSE Data Analysis
+#  NEPSE Data Analysis
 
 > Stock market analysis and prediction of companies listed on the Nepal Stock Exchange (NEPSE) using Python, machine learning, and deep learning.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Project Overview](#project-overview)
 - [Project Structure](#project-structure)
@@ -23,7 +23,7 @@
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 This is an advanced Python data science project that analyzes historical stock data from the Nepal Stock Exchange (NEPSE). The project covers the full data science pipeline — from raw data collection and exploratory analysis, to deep learning-based price forecasting, dynamic stock quality scoring, Random Forest prediction, and portfolio optimization.
 
@@ -31,7 +31,7 @@ The goal is to understand market behavior, predict next-day closing prices, eval
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 nepse_dataanalysis/
@@ -56,7 +56,7 @@ nepse_dataanalysis/
 
 ---
 
-## 📊 Dataset
+##  Dataset
 
 Historical NEPSE stock data collected per company with the following features:
 
@@ -80,30 +80,33 @@ Historical NEPSE stock data collected per company with the following features:
 
 ---
 
-## 🔬 Project Steps
+##  Project Steps
 
-### 1️⃣ Data Collection
+### 1. Data Collection
 
 - Historical stock data imported from NEPSE sources
 - Each company stored as a separate CSV file
 - Data covers 2022–2026 daily trading records
 - Fundamental data merged from annual financial reports
 
-### 2️⃣ Data Preprocessing
+### 2. Data Preprocessing
 
 - Parsing and sorting dates chronologically
 - Handling missing values and outliers
 - Carrying forward 2025 fundamentals for 2026 rows where annual data is unavailable
 - Normalizing/scaling features for model input
 
-### 3️⃣ Exploratory Data Analysis (EDA)
+### 3. Exploratory Data Analysis (EDA)
 
 - Visualizing price trends over time
 - Analyzing volume patterns
 - Correlation analysis between fundamental features and quality score
 - Identifying high-performing stocks across years
 
-### 4️⃣ Feature Engineering
+![Correlation Heatmap](results/plots/correlation_heatmap.png)
+*Correlation heatmap between all engineered features and the Quality Score.*
+
+### 4. Feature Engineering
 
 Key features engineered from raw data:
 
@@ -122,7 +125,7 @@ Key features engineered from raw data:
 
 > All features are shifted by 1 day to prevent data leakage — only past information is used to predict the future.
 
-### 5️⃣ Train / Test Split
+### 5. Train / Test Split
 
 - Chronological split: train on 2022–2024, test on 2025
 - This simulates a realistic forecasting scenario
@@ -130,7 +133,7 @@ Key features engineered from raw data:
 
 ---
 
-## 🤖 Prediction Model
+##  Prediction Model
 
 ### LSTM (Long Short-Term Memory)
 
@@ -144,6 +147,9 @@ A deep learning model designed for time-series forecasting.
 Input (60 days) → LSTM → Dropout → LSTM → Dropout → Dense → Predicted Close
 ```
 
+![LSTM Predicted vs Actual](results/plots/lstm_actualvs_predicted.png)
+*LSTM predicted vs actual closing price on the 2025 test set.*
+
 ### Evaluation Metrics
 
 | Metric | Description |
@@ -155,7 +161,7 @@ Lower values of both metrics indicate a better model.
 
 ---
 
-## ⭐ Quality Score System
+##  Quality Score System
 
 Each stock is assigned a **daily Quality Score between 0 and 1** based on fundamental and market factors. Unlike a purely annual score, the Quality Score updates every trading day because the PE ratio is recalculated using the live closing price.
 
@@ -189,13 +195,16 @@ quality_score = (
 
 All features are scaled using MinMaxScaler fitted on 2022–2025 training data. The same scaler is applied (without refitting) when scoring 2026 data.
 
+![QS Trend with Signal Zones](results/plots/quality_score_trend.png)
+*Yearly Quality Score trend with Bullish / Neutral / Bearish signal zones.*
+
 ### Signal Thresholds
 
 | Quality Score | Signal  | Recommendation |
 |---------------|---------|----------------|
-| ≥ 0.6         | 🟢 Bullish | Buy            |
-| 0.4 – 0.6     | 🟡 Neutral | Hold           |
-| ≤ 0.4         | 🔴 Bearish | Sell           |
+| ≥ 0.6         | Bullish | Buy            |
+| 0.4 – 0.6     | Neutral | Hold           |
+| ≤ 0.4         | Bearish | Sell           |
 
 ### 2026 Prediction Approach
 
@@ -218,7 +227,7 @@ A Random Forest Regressor is trained to predict the next day's Quality Score usi
 - `return_1d`, `return_5d`, `return_20d` — price momentum
 - `ma_ratio` — trend indicator (MA7 / MA21)
 
-**Training:** 2022–2024 daily data (~700 rows)
+**Training:** 2022–2024 daily data (~700 rows)  
 **Testing:** 2025 daily data (~225 rows)
 
 **Evaluation Metrics:**
@@ -228,6 +237,9 @@ A Random Forest Regressor is trained to predict the next day's Quality Score usi
 | RMSE                 | Prediction error in QS units                         |
 | R²                   | How well the model explains QS variance              |
 | Directional Accuracy | Did the model correctly predict QS going up or down? |
+
+![Feature Importance](results/plots/feature_importance.png)
+*Random Forest feature importance — which inputs most influence next-day Quality Score prediction.*
 
 ### Company Score Aggregation
 
@@ -248,6 +260,9 @@ signal = 'Bullish' if avg_score >= 0.6 else ('Bearish' if avg_score <= 0.4 else 
 | NABIL   | 0.6821    | Bullish |
 | EBL     | 0.5134    | Neutral |
 | SCB     | 0.3892    | Bearish |
+
+![Yearly Average QS](results/plots/qs_yearly_avg.png)
+*Annual average Quality Score per company — used to identify consistently strong performers.*
 
 ### Visualizations
 
@@ -322,6 +337,11 @@ Plot the risk-return tradeoff across thousands of random portfolio simulations, 
 - The **Maximum Sharpe Portfolio** (best risk-adjusted return)
 - The **Optimal Portfolio** selected by the model
 
+
+
+![Portfolio Weight](results/plots/portfolio_weights.png)
+*Portfolio weight pie chart graph.*
+
 ### Output
 
 ```
@@ -342,7 +362,7 @@ results/
 
 ---
 
-## 💰 Investment Simulation
+## Investment Simulation
 
 ### Buy Strategy
 
@@ -361,13 +381,15 @@ A trade signal is triggered when **both** conditions are met:
 
 ---
 
-## 📈 Results
+## Results
 
 Predicted vs actual close price plots, quality score trends, and portfolio performance results are saved in `results/plots/`. Aggregated company scores are saved in `results/company_scores.csv`.
 
+> Run all notebooks in order to regenerate plots from your own data.
+
 ---
 
-## 🚀 How to Run
+##  How to Run
 
 **1. Clone the repository**
 
@@ -399,7 +421,7 @@ jupyter notebook
 
 ---
 
-## 📦 Requirements
+##  Requirements
 
 ```
 pandas
@@ -421,20 +443,20 @@ pip install -r requirements.txt
 
 ---
 
-## 👥 Contributors
+## Contributors
 
 This project was developed as a group project for the Advanced Python course.
 
 | Contributor | GitHub | Role |
 |-------------|--------|------|
-| Sunil | [@sunil0x](https://github.com/sunil0x) | Project Lead  |
-| Contributor 2 |  []()) |  |
-| Contributor 3 |  []()) |  |
+| Sunil Paudel | [@sunil0x](https://github.com/sunil0x) | Random Forest Model and Portfolio Optimization |
+| Sandeep Thapa | [@SandeepThapaChhetri](https://github.com/SandeepThapaChhetri) | Data Preprocessing and Feature Engineering |
+| Shisir Neupane Sharma | [@Shishir-129](https://github.com/Shishir-129) | LSTM Model |
 
-> 📌 **Note:** The repository shows 2 contributors. If you are a co-contributor, feel free to update this section with your name and GitHub handle.
+> **Note:** This project is built for learning purposes only. Do not rely solely on these predictions for buying or selling stocks. We are not responsible for any financial decisions made based on this project.
 
 ---
 
 <p align="center">
-  Made with ❤️ in Nepal | Advanced Python Project — NEPSE Data Analysis Team
+  Advanced Python Project — NEPSE Data Analysis Team
 </p>
