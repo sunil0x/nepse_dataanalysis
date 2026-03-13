@@ -1,12 +1,12 @@
-# NEPSE Data Analysis
+# 🚀 NEPSE Data Analysis
 
-Stock market analysis and prediction of companies listed on the Nepal Stock Exchange (NEPSE) using Python, machine learning, and deep learning.
+> Stock market analysis and prediction of companies listed on the Nepal Stock Exchange (NEPSE) using Python, machine learning, and deep learning.
 
-**Repository:** https://github.com/sunil0x/nepse_dataanalysis
+**Repository:** [https://github.com/sunil0x/nepse_dataanalysis](https://github.com/sunil0x/nepse_dataanalysis)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [Project Overview](#project-overview)
 - [Project Structure](#project-structure)
@@ -19,11 +19,11 @@ Stock market analysis and prediction of companies listed on the Nepal Stock Exch
 - [Results](#results)
 - [How to Run](#how-to-run)
 - [Requirements](#requirements)
-- [Team](#team)
+- [Contributors](#contributors)
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
 This is an advanced Python data science project that analyzes historical stock data from the Nepal Stock Exchange (NEPSE). The project covers the full data science pipeline — from raw data collection and exploratory analysis, to deep learning-based price forecasting, dynamic stock quality scoring, Random Forest prediction, and portfolio optimization.
 
@@ -31,7 +31,7 @@ The goal is to understand market behavior, predict next-day closing prices, eval
 
 ---
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 nepse_dataanalysis/
@@ -39,17 +39,24 @@ nepse_dataanalysis/
 ├── data-companywise/
 │   ├── raw/                         # Raw stock data per company (CSV files)
 │   └── processed_data/              # Cleaned and feature-engineered CSVs
-├── notebooks/                       # Jupyter notebooks for each stage
+├── notebooks/
+│   └── Data Preprocessing and Feature Engineering/
+│       ├── <company_name>.ipynb     # Per-company preprocessing & feature engineering
+│       └── portfolio_optimization.ipynb
+├── model/
+│   ├── lstm_model.ipynb             # LSTM price prediction model
+│   └── random_forest_model.ipynb   # Random Forest QS prediction model
 ├── results/
 │   ├── plots/                       # Output charts and visualizations
 │   └── company_scores.csv           # Aggregated quality scores per company
 ├── src/                             # Python source scripts
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
 ---
 
-## Dataset
+## 📊 Dataset
 
 Historical NEPSE stock data collected per company with the following features:
 
@@ -69,34 +76,34 @@ Historical NEPSE stock data collected per company with the following features:
 | `dividend`     | Dividend per share (annual)                      |
 | `debt-equity`  | Debt-to-Equity ratio (annual)                    |
 
-Fundamental columns (EPS, ROE, PE, etc.) are published annually by NEPSE companies and are mapped to every trading day of that fiscal year. For 2026, where annual reports are not yet published, the most recent known fundamentals (2025) are carried forward.
+> Fundamental columns (EPS, ROE, PE, etc.) are published annually by NEPSE companies and are mapped to every trading day of that fiscal year. For 2026, where annual reports are not yet published, the most recent known fundamentals (2025) are carried forward.
 
 ---
 
-## Project Steps
+## 🔬 Project Steps
 
-### Step 1 — Data Collection
+### 1️⃣ Data Collection
 
 - Historical stock data imported from NEPSE sources
 - Each company stored as a separate CSV file
 - Data covers 2022–2026 daily trading records
 - Fundamental data merged from annual financial reports
 
-### Step 2 — Data Preprocessing
+### 2️⃣ Data Preprocessing
 
 - Parsing and sorting dates chronologically
 - Handling missing values and outliers
 - Carrying forward 2025 fundamentals for 2026 rows where annual data is unavailable
 - Normalizing/scaling features for model input
 
-### Step 3 — Exploratory Data Analysis (EDA)
+### 3️⃣ Exploratory Data Analysis (EDA)
 
 - Visualizing price trends over time
 - Analyzing volume patterns
 - Correlation analysis between fundamental features and quality score
 - Identifying high-performing stocks across years
 
-### Step 4 — Feature Engineering
+### 4️⃣ Feature Engineering
 
 Key features engineered from raw data:
 
@@ -113,9 +120,9 @@ Key features engineered from raw data:
 | `ma_ratio`         | Ratio of 7-day MA to 21-day MA (above 1 = uptrend)                |
 | `qs_lag1/2/3`      | Previous 1, 2, 3 days Quality Score                               |
 
-All features are shifted by 1 day to prevent data leakage — only past information is used to predict the future.
+> All features are shifted by 1 day to prevent data leakage — only past information is used to predict the future.
 
-### Step 5 — Train / Test Split
+### 5️⃣ Train / Test Split
 
 - Chronological split: train on 2022–2024, test on 2025
 - This simulates a realistic forecasting scenario
@@ -123,7 +130,7 @@ All features are shifted by 1 day to prevent data leakage — only past informat
 
 ---
 
-## Prediction Model
+## 🤖 Prediction Model
 
 ### LSTM (Long Short-Term Memory)
 
@@ -148,7 +155,7 @@ Lower values of both metrics indicate a better model.
 
 ---
 
-## Quality Score System
+## ⭐ Quality Score System
 
 Each stock is assigned a **daily Quality Score between 0 and 1** based on fundamental and market factors. Unlike a purely annual score, the Quality Score updates every trading day because the PE ratio is recalculated using the live closing price.
 
@@ -186,9 +193,9 @@ All features are scaled using MinMaxScaler fitted on 2022–2025 training data. 
 
 | Quality Score | Signal  | Recommendation |
 |---------------|---------|----------------|
-| ≥ 0.6         | Bullish | Buy            |
-| 0.4 – 0.6     | Neutral | Hold           |
-| ≤ 0.4         | Bearish | Sell           |
+| ≥ 0.6         | 🟢 Bullish | Buy            |
+| 0.4 – 0.6     | 🟡 Neutral | Hold           |
+| ≤ 0.4         | 🔴 Bearish | Sell           |
 
 ### 2026 Prediction Approach
 
@@ -204,14 +211,14 @@ Since 2026 annual fundamentals are not yet published, the following carry-forwar
 
 ### Random Forest Model
 
-A Random Forest Regressor is trained to predict the next day's Quality Score using recent QS history and market signals:
+A Random Forest Regressor is trained to predict the next day's Quality Score using recent QS history and market signals.
 
-**Features:**
+**Features used:**
 - `qs_lag1`, `qs_lag2`, `qs_lag3` — past QS values
 - `return_1d`, `return_5d`, `return_20d` — price momentum
 - `ma_ratio` — trend indicator (MA7 / MA21)
 
-**Training:** 2022–2024 daily data (~700 rows)  
+**Training:** 2022–2024 daily data (~700 rows)
 **Testing:** 2025 daily data (~225 rows)
 
 **Evaluation Metrics:**
@@ -242,8 +249,6 @@ signal = 'Bullish' if avg_score >= 0.6 else ('Bearish' if avg_score <= 0.4 else 
 | EBL     | 0.5134    | Neutral |
 | SCB     | 0.3892    | Bearish |
 
-This file is the input for the Portfolio Optimization stage.
-
 ### Visualizations
 
 | Plot                          | Description                                              |
@@ -257,7 +262,7 @@ This file is the input for the Portfolio Optimization stage.
 
 ---
 
-## Portfolio Optimization
+## 💼 Portfolio Optimization
 
 ### Goal
 
@@ -337,11 +342,11 @@ results/
 
 ---
 
-## Investment Simulation
+## 💰 Investment Simulation
 
 ### Buy Strategy
 
-A trade signal is triggered when both conditions are met:
+A trade signal is triggered when **both** conditions are met:
 
 - Predicted price is **at least 2% higher** than the current price (from LSTM)
 - Stock Quality Score is **above 0.6** (Bullish signal)
@@ -356,13 +361,13 @@ A trade signal is triggered when both conditions are met:
 
 ---
 
-## Results
+## 📈 Results
 
 Predicted vs actual close price plots, quality score trends, and portfolio performance results are saved in `results/plots/`. Aggregated company scores are saved in `results/company_scores.csv`.
 
 ---
 
-## How to Run
+## 🚀 How to Run
 
 **1. Clone the repository**
 
@@ -385,19 +390,16 @@ Open Jupyter and run the notebooks inside the `notebooks/` folder sequentially:
 jupyter notebook
 ```
 
-| Notebook                          | Purpose                                              |
-|-----------------------------------|------------------------------------------------------|
-| `01_data_exploration.ipynb`       | Load data, EDA, visualizations                       |
-| `02_feature_engineering.ipynb`    | Create features, handle leakage                      |
-| `03_lstm_model.ipynb`             | Train and evaluate LSTM price prediction model       |
-| `04_quality_score.ipynb`          | Compute dynamic daily quality scores per stock       |
-| `05_random_forest_model.ipynb`    | Train RF model to predict next-day QS                |
-| `06_portfolio_optimization.ipynb` | Filter Bullish stocks and optimize portfolio weights |
-| `07_simulation.ipynb`             | Run investment simulation using LSTM + QS signals    |
+| Notebook | Purpose |
+|----------|---------|
+| `notebooks/Data Preprocessing and Feature Engineering/<company_name>.ipynb` | Per-company data preprocessing & feature engineering |
+| `notebooks/Data Preprocessing and Feature Engineering/portfolio_optimization.ipynb` | Filter Bullish stocks and optimize portfolio weights |
+| `model/lstm_model.ipynb` | Train and evaluate LSTM price prediction model |
+| `model/random_forest_model.ipynb` | Train RF model to predict next-day QS |
 
 ---
 
-## Requirements
+## 📦 Requirements
 
 ```
 pandas
@@ -419,8 +421,20 @@ pip install -r requirements.txt
 
 ---
 
-## Team
+## 👥 Contributors
 
-Advanced Python Project — NEPSE Data Analysis Team
+This project was developed as a group project for the Advanced Python course.
 
-**Repository:** https://github.com/sunil0x/nepse_dataanalysis
+| Contributor | GitHub | Role |
+|-------------|--------|------|
+| Sunil | [@sunil0x](https://github.com/sunil0x) | Project Lead  |
+| Contributor 2 |  []()) |  |
+| Contributor 3 |  []()) |  |
+
+> 📌 **Note:** The repository shows 2 contributors. If you are a co-contributor, feel free to update this section with your name and GitHub handle.
+
+---
+
+<p align="center">
+  Made with ❤️ in Nepal | Advanced Python Project — NEPSE Data Analysis Team
+</p>
